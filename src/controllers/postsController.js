@@ -1,3 +1,4 @@
+import "dotenv/config";
 import fs from "fs";
 import { getAllPosts, savePost, modifyPost } from "../models/postsModel.js";
 import generateDescriptionWithGemini from "../services/geminiService.js";

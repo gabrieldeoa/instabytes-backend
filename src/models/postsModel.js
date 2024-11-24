@@ -1,5 +1,6 @@
-import dbConnect from "../config/database.js";
+import "dotenv/config";
 import { ObjectId } from "mongodb";
+import dbConnect from "../config/database.js";
 
 const connection = await dbConnect(process.env.MONGO_CONNECTION);
 
