@@ -1,5 +1,5 @@
 import fs from "fs";
-import { getAllPosts, savePost } from "../models/postsModel.js";
+import { getAllPosts, savePost, modifyPost } from "../models/postsModel.js";
 
 export async function listAllPosts(_, response) {
   const posts = await getAllPosts();
@@ -12,6 +12,27 @@ export async function createPost(request, response) {
     const postCreated = await savePost(data);
 
     response.status(200).json(postCreated);
+  } catch (error) {
+    console.error(error.message);
+    response.status(500).json({ error: "Falha na requisição." });
+  }
+}
+
+export async function updatePost(request, response) {
+  try {
+    const id = request.params.id;
+    const data = request.body;
+    const urlImage = `http://localhost:3000/${id}.png`;
+
+    const post = {
+      image_url: urlImage,
+      description: data.description,
+      image_alt: data.image_alt,
+    };
+
+    const postUpdated = await modifyPost(id, post);
+
+    response.status(200).json(postUpdated);
   } catch (error) {
     console.error(error.message);
     response.status(500).json({ error: "Falha na requisição." });

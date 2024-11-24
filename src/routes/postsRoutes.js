@@ -4,6 +4,7 @@ import {
   listAllPosts,
   createPost,
   uploadImage,
+  updatePost,
 } from "../controllers/postsController.js";
 
 const routes = (app) => {
@@ -12,6 +13,7 @@ const routes = (app) => {
   app.get("/posts", listAllPosts);
   app.post("/posts", createPost);
   app.post("/upload", singleUpload("image"), uploadImage);
+  app.put("/upload/:id", updatePost);
 };
 
 export default routes;
