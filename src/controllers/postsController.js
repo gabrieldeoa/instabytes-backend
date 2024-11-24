@@ -1,5 +1,6 @@
 import fs from "fs";
 import { getAllPosts, savePost, modifyPost } from "../models/postsModel.js";
+import generateDescriptionWithGemini from "../services/geminiService.js";
 
 export async function listAllPosts(_, response) {
   const posts = await getAllPosts();
@@ -21,13 +22,16 @@ export async function createPost(request, response) {
 export async function updatePost(request, response) {
   try {
     const id = request.params.id;
-    const data = request.body;
-    const urlImage = `http://localhost:3000/${id}.png`;
+    const { image_alt } = request.body;
+
+    const imageUrl = `http://localhost:3000/${id}.png`;
+    const imageBuffer = fs.readFileSync(`${process.env.UPLOAD_PATH}${id}.png`);
+    const imageDescription = await generateDescriptionWithGemini(imageBuffer);
 
     const post = {
-      image_url: urlImage,
-      description: data.description,
-      image_alt: data.image_alt,
+      image_url: imageUrl,
+      description: imageDescription,
+      image_alt,
     };
 
     const postUpdated = await modifyPost(id, post);
