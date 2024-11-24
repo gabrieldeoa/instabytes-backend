@@ -24,7 +24,7 @@ export async function updatePost(request, response) {
     const id = request.params.id;
     const { image_alt } = request.body;
 
-    const imageUrl = `http://localhost:3000/${id}.png`;
+    const imageUrl = `http://localhost:${process.env.PORT}/${id}.png`;
     const imageBuffer = fs.readFileSync(`${process.env.UPLOAD_PATH}${id}.png`);
     const imageDescription = await generateDescriptionWithGemini(imageBuffer);
 
